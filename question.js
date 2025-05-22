@@ -15,26 +15,28 @@ const data = [
     options: ["Karachi", "Rawalpindi", "Islamabad", "Multan"],
   },
 ];
-setInterval(() => {
-const questionElem = document.getElementById("question");
-const optionsElems = document.querySelectorAll(".option");
-const answerElem = document.getElementById("answer");
 
-function displayQuestion() {
-  const randomIndex = Math.floor(Math.random() * data.length);
-  const currentQuestion = data[randomIndex];
+ let count = 0;
 
-  questionElem.textContent = currentQuestion.question;
+    function printQuestion(obj) {
+      const questionPara = document.getElementById("question");
+      const options = document.querySelectorAll(".option");
 
-  optionsElems.forEach((optionElem, index) => {
+      questionPara.innerText = obj.question;
+      options.forEach((option, index) => {
+        option.innerText = obj.options[index];
+      });
+    }
 
-    optionElem.textContent = currentQuestion.options[index];
-  });
-  
-  answerElem.textContent = "Answer: " + currentQuestion.answer;
+    function showNextQuestion() {
+      if (count >= data.length) {
+        clearInterval(intervalId);
+        return;
+      }
+      printQuestion(data[count]);
+      count++;
+    }
 
-}
-displayQuestion();
-
-}, 2000);
-
+    const questionPara = document.getElementById("question");
+    showNextQuestion();
+    const intervalId = setInterval(showNextQuestion, 4000);
